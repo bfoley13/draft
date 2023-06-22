@@ -1,3 +1,7 @@
+fillcmd:
+  use: "workflow-helm"
+  short: "fill helm workflow"
+  long: "uses input params to fill in a workflow"
 variables:
   - name: "AZURECONTAINERREGISTRY"
     description: "the Azure container registry name"
@@ -9,14 +13,15 @@ variables:
     description: "the AKS cluster name"
   - name: "BRANCHNAME"
     description: "the Github branch to automatically deploy from"
-  - name: "BUILDCONTEXTPATH"
-    description: "the path to the Docker build context"
 variableDefaults:
   - name: "CHARTPATH"
     value: "./charts"
     disablePrompt: true
+    description: "the charts directory path"
   - name: "CHARTOVERRIDEPATH"
     value: "./charts/production.yaml"
     disablePrompt: true
+    description: "the chart override file path"
   - name: "BUILDCONTEXTPATH"
     value: "."
+    description: "the build context path"

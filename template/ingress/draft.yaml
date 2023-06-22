@@ -1,0 +1,15 @@
+fillcmd:
+  use: "ingress"
+  short: "fill simple ingress"
+  long: "uses input params to fill in a ingress"
+variables:
+  - name: "ingress-name"
+    description: "ingress-name"
+  - name: "ingress-class-name"
+    description: "ingress-class-name"
+  - name: "path"
+    description: "path"
+  - name: "service-name"
+    description: "service-name"
+  - name: "service-port"
+    description: "service-port"
