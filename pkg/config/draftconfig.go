@@ -68,6 +68,7 @@ func (d *DraftConfig) GetNameOverride(path string) string {
 func (d *DraftConfig) ApplyDefaultVariables(customConfig map[string]string) {
 	for _, variable := range d.VariableDefaults {
 		if _, ok := customConfig[variable.Name]; !ok {
+			log.Infof("Variable %s defaulting to value %s", variable.Name, variable.Value)
 			customConfig[variable.Name] = variable.Value
 		}
 	}
