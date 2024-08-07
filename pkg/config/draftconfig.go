@@ -3,14 +3,19 @@ package config
 import (
 	"errors"
 	"fmt"
+	"io/fs"
 
 	log "github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 type DraftConfig struct {
-	DisplayName         string            `yaml:"displayName"`
-	Variables           []*BuilderVar     `yaml:"variables"`
-	FileNameOverrideMap map[string]string `yaml:"filenameOverrideMap"`
+	TemplateName		string            	`yaml:"template"`
+	DisplayName         string            	`yaml:"displayName"`
+	Variables           []*BuilderVar     	`yaml:"variables"`
+	FileNameOverrideMap map[string]string	`yaml:"filenameOverrideMap"`
+	Versions			string          	`yaml:"versions"`
+	DefaultVersion 		string				`yaml:"defaultVersion"`
 }
 
 type BuilderVar struct {
@@ -26,6 +31,20 @@ type BuilderVarDefault struct {
 	IsPromptDisabled bool   `yaml:"disablePrompt"`
 	ReferenceVar     string `yaml:"referenceVar"`
 	Value            string `yaml:"value"`
+}
+
+func NewConfigFromFS(fileSys fs.FS, path string) (*DraftConfig, error) {
+	configBytes, err := fs.ReadFile(fileSys, path)
+	if err != nil {
+		return nil, err
+	}
+
+	var draftConfig DraftConfig
+	if err = yaml.Unmarshal(configBytes, &draftConfig); err != nil {
+		return nil, err
+	}
+
+	return &draftConfig, nil
 }
 
 func (d *DraftConfig) GetVariableExampleValues() map[string][]string {
@@ -56,6 +75,16 @@ func (d *DraftConfig) GetVariable(name string) (*BuilderVar, error) {
 	}
 
 	return nil, fmt.Errorf("variable %s not found", name)
+}
+
+func (d *DraftConfig) GetVariableValue(name string) (string, error) {
+	for _, variable := range d.Variables {
+		if variable.Name == name {
+			return variable.Value, nil
+		}
+	}
+
+	return "", fmt.Errorf("variable %s not found", name)
 }
 
 func (d *DraftConfig) SetVariable(name, value string) {
