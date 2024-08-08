@@ -30,23 +30,15 @@ variables:
     description: "the label to identify who generated the resource"
     versions: ">=0.0.1"
   - name: "CPULIMIT"
-    default: 
-      value: "1"
     description: "resource cpu limit"
     versions: ">=0.0.2"
   - name: "MEMLIMIT"
-    default: 
-      value: "1Gi"
     description: "resource memory limit"
     versions: ">=0.0.2"
   - name: "CPUREQ"
-    default: 
-      value: "1"
     description: "resource cpu request"
     versions: ">=0.0.2"
   - name: "MEMREQ"
-    default: 
-      value: "1Gi"
     description: "resoure memory request"
     versions: ">=0.0.2"
   - name: "READINESSPERIOD"

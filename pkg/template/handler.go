@@ -81,9 +81,27 @@ func GetTemplate(name, version, dest string, templateWriter templatewriter.Templ
 
 	template.dest = dest
 	template.templateWriter = templateWriter
+	if !isValidVersion(template.Config.Versions, version) {
+		return nil, fmt.Errorf("template %s version %s not supported", name, version)
+	}
+
 	template.version = version
 
 	return template, nil
+}
+
+func isValidVersion(versionRange, version string) bool {
+	v, err := semver.Parse(version)
+	if err != nil {
+		return false
+	}
+
+	expectedRange, err := semver.ParseRange(versionRange)
+	if err != nil {
+		return false
+	}
+
+	return expectedRange(v)
 }
 
 func (t *Template) CreateTemplates() error {
@@ -91,7 +109,7 @@ func (t *Template) CreateTemplates() error {
 		return err
 	}
 
-	if err := t.Config.ApplyDefaultVariables(); err != nil {
+	if err := t.Config.ApplyDefaultVariablesForVersion(t.version); err != nil {
 		return fmt.Errorf("create workflow files: %w", err)
 	}
 
