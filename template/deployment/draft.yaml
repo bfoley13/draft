@@ -12,6 +12,14 @@ variables:
   - name: "APPNAME"
     description: "the name of the application"
     versions: ">=0.0.1"
+  - name: "NAMESPACE"
+    description: "the namespace the application is deployed to"
+    versions: ">=0.0.1"
+  - name: "SERVICEPORT"
+    description: "the port of the kubernetes service"
+    default:
+      referenceVar: "PORT"
+    versions: ">=0.0.1"
   - name: "IMAGENAME"
     default:
       referenceVar: "APPNAME"
