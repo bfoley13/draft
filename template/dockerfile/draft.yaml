@@ -1,3 +1,8 @@
+template: "go-dockerfile"
+description: "Go Dockerfile"
+type: "dockerfile"
+versions: "0.0.1"
+defaultVersion: "0.0.1"
 language: gomodule
 displayName: Go Module
 variables:
@@ -6,8 +11,10 @@ variables:
       value: "80"
     description: "the port exposed in the application"
     type: int
+    versions: ">=0.0.1"
   - name: "VERSION"
     default:
       value: "1.18"
     description: "the version of go used by the application"
     exampleValues: ["1.16", "1.17", "1.18", "1.19"]
+    versions: ">=0.0.1"
